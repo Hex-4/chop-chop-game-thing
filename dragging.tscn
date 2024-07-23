@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://c70515e17ph6y"]
+
+[ext_resource type="Texture2D" uid="uid://cfmf2h0ga1lcn" path="res://testcard.png" id="1_8i8dk"]
+[ext_resource type="Script" path="res://Testcard.gd" id="2_fmdc0"]
+
+[node name="Node2D" type="Node2D"]
+
+[node name="Testcard" type="Sprite2D" parent="."]
+position = Vector2(329, 601)
+texture = ExtResource("1_8i8dk")
+script = ExtResource("2_fmdc0")
