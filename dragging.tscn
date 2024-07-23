@@ -1,11 +1,19 @@
-[gd_scene load_steps=3 format=3 uid="uid://c70515e17ph6y"]
+[gd_scene load_steps=4 format=3 uid="uid://c70515e17ph6y"]
 
 [ext_resource type="Texture2D" uid="uid://cfmf2h0ga1lcn" path="res://testcard.png" id="1_8i8dk"]
-[ext_resource type="Script" path="res://Testcard.gd" id="2_fmdc0"]
+[ext_resource type="Script" path="res://card.gd" id="1_ai7hy"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1ulb5"]
+size = Vector2(268, 352)
 
 [node name="Node2D" type="Node2D"]
 
-[node name="Testcard" type="Sprite2D" parent="."]
-position = Vector2(329, 601)
+[node name="StaticBody2D2" type="StaticBody2D" parent="."]
+input_pickable = true
+script = ExtResource("1_ai7hy")
+
+[node name="Testcard" type="Sprite2D" parent="StaticBody2D2"]
 texture = ExtResource("1_8i8dk")
-script = ExtResource("2_fmdc0")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D2"]
+shape = SubResource("RectangleShape2D_1ulb5")
