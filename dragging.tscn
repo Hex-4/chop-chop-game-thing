@@ -8,12 +8,26 @@ size = Vector2(268, 352)
 
 [node name="Node2D" type="Node2D"]
 
-[node name="StaticBody2D2" type="StaticBody2D" parent="."]
+[node name="StaticBody2D2" type="StaticBody2D" parent="." groups=["card"]]
+position = Vector2(211, 247)
 input_pickable = true
 script = ExtResource("1_ai7hy")
+metadata/_edit_group_ = true
 
 [node name="Testcard" type="Sprite2D" parent="StaticBody2D2"]
 texture = ExtResource("1_8i8dk")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D2"]
+shape = SubResource("RectangleShape2D_1ulb5")
+
+[node name="StaticBody2D3" type="StaticBody2D" parent="." groups=["card"]]
+position = Vector2(957, 257)
+input_pickable = true
+script = ExtResource("1_ai7hy")
+metadata/_edit_group_ = true
+
+[node name="Testcard" type="Sprite2D" parent="StaticBody2D3"]
+texture = ExtResource("1_8i8dk")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D3"]
 shape = SubResource("RectangleShape2D_1ulb5")
