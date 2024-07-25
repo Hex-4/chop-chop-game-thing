@@ -11,6 +11,7 @@ config_version=5
 [application]
 
 config/name="chop chop game thing"
+run/main_scene="res://dragging.tscn"
 config/features=PackedStringArray("4.2", "GL Compatibility")
 config/icon="res://icon.svg"
 

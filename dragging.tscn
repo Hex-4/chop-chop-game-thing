@@ -1,33 +1,55 @@
-[gd_scene load_steps=4 format=3 uid="uid://c70515e17ph6y"]
+[gd_scene load_steps=5 format=3 uid="uid://c70515e17ph6y"]
 
 [ext_resource type="Texture2D" uid="uid://cfmf2h0ga1lcn" path="res://testcard.png" id="1_8i8dk"]
 [ext_resource type="Script" path="res://card.gd" id="1_ai7hy"]
+[ext_resource type="Script" path="res://cardmanager.gd" id="1_loax4"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1ulb5"]
-size = Vector2(268, 352)
+size = Vector2(187, 260)
 
 [node name="Node2D" type="Node2D"]
+script = ExtResource("1_loax4")
 
-[node name="StaticBody2D2" type="StaticBody2D" parent="." groups=["card"]]
-position = Vector2(211, 247)
-input_pickable = true
+[node name="Card" type="Area2D" parent="." groups=["card"]]
+position = Vector2(157, 304)
 script = ExtResource("1_ai7hy")
 metadata/_edit_group_ = true
 
-[node name="Testcard" type="Sprite2D" parent="StaticBody2D2"]
+[node name="Testcard" type="Sprite2D" parent="Card"]
 texture = ExtResource("1_8i8dk")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D2"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Card"]
 shape = SubResource("RectangleShape2D_1ulb5")
 
-[node name="StaticBody2D3" type="StaticBody2D" parent="." groups=["card"]]
-position = Vector2(957, 257)
-input_pickable = true
+[node name="Card2" type="Area2D" parent="." groups=["card"]]
+position = Vector2(442, 420)
 script = ExtResource("1_ai7hy")
 metadata/_edit_group_ = true
 
-[node name="Testcard" type="Sprite2D" parent="StaticBody2D3"]
+[node name="Testcard" type="Sprite2D" parent="Card2"]
 texture = ExtResource("1_8i8dk")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D3"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Card2"]
+shape = SubResource("RectangleShape2D_1ulb5")
+
+[node name="Card3" type="Area2D" parent="." groups=["card"]]
+position = Vector2(729, 294)
+script = ExtResource("1_ai7hy")
+metadata/_edit_group_ = true
+
+[node name="Testcard" type="Sprite2D" parent="Card3"]
+texture = ExtResource("1_8i8dk")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Card3"]
+shape = SubResource("RectangleShape2D_1ulb5")
+
+[node name="Card4" type="Area2D" parent="." groups=["card"]]
+position = Vector2(989, 410)
+script = ExtResource("1_ai7hy")
+metadata/_edit_group_ = true
+
+[node name="Testcard" type="Sprite2D" parent="Card4"]
+texture = ExtResource("1_8i8dk")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Card4"]
 shape = SubResource("RectangleShape2D_1ulb5")
