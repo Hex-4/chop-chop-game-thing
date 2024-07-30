@@ -16,6 +16,8 @@ var overlaps
 var prev_pos
 var prev_can_drag = false
 
+@onready var sprite = $Testcard
+
 func _process(delta):
 	#print("canDrag: " + str(canDrag))
 	#print("prev canDrag:" + str(prev_can_drag))
@@ -38,6 +40,7 @@ func _input_event(viewport, event, shape_idx):
 				canDrag = true
 				z_index = 1000
 		else:
+			
 			canDrag = false
 			#var tween = get_tree().create_tween()
 			#tween.tween_property(self, "position", prev_pos, 0.2).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
@@ -46,9 +49,27 @@ func released():
 	overlaps = get_overlapping_areas()
 	if overlaps:
 		z_index = overlaps[0].z_index + 1
-		var target_pos = Vector2(overlaps[0].position.x,overlaps[0].position.y - 5)
+		rotation_degrees = 0
+		var target_pos = Vector2(overlaps[0].position.x,overlaps[0].position.y - 3)
 		var tween = get_tree().create_tween()
-		tween.tween_property(self, "position", target_pos, 0.2).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+		tween.tween_property(self, "rotation_degrees", 360, 0.8).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+		tween.tween_interval(0.1)
+		tween.tween_property(self, "position", prev_pos, 0.3).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 	else:
 		var tween = get_tree().create_tween()
-		tween.tween_property(self, "position", prev_pos, 0.2).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+		tween.tween_property(self, "position", prev_pos, 0.3).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+
+
+func _on_mouse_entered():
+	if (not canDrag) and len(get_overlapping_areas()) == 0 :
+		#var tween = get_tree().create_tween()
+		#tween.tween_property(self, "position", Vector2(position.x, position.y - 5), 0.2).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+		sprite.play("hover")
+	
+
+
+func _on_mouse_exited():
+	if not canDrag:
+		#var tween = get_tree().create_tween()
+		#tween.tween_property(self, "position", Vector2(position.x, position.y + 5), 0.2).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN)
+		sprite.play_backwards("hover")
