@@ -6,14 +6,18 @@
 [node name="Node2D" type="Node2D"]
 script = ExtResource("1_loax4")
 
-[node name="Card" parent="." instance=ExtResource("2_vdxtg")]
+[node name="top 1" parent="." instance=ExtResource("2_vdxtg")]
+position = Vector2(514, 107)
+team = 1
+
+[node name="top 2" parent="." instance=ExtResource("2_vdxtg")]
+position = Vector2(667, 108)
+team = 1
+number = 2
+
+[node name="bottom 1" parent="." instance=ExtResource("2_vdxtg")]
 position = Vector2(521, 538)
 
-[node name="Card2" parent="." instance=ExtResource("2_vdxtg")]
-position = Vector2(687, 537)
-
-[node name="Card3" parent="." instance=ExtResource("2_vdxtg")]
-position = Vector2(621, 107)
-
-[node name="Card4" parent="." instance=ExtResource("2_vdxtg")]
-position = Vector2(468, 106)
+[node name="bottom 2" parent="." instance=ExtResource("2_vdxtg")]
+position = Vector2(684, 533)
+number = 2

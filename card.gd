@@ -3,6 +3,7 @@ extends Area2D
 
 
 
+
 # modified code from gemmomoh on godot forums
 var canDrag = false:
 	get:
@@ -16,7 +17,15 @@ var overlaps
 var prev_pos
 var prev_can_drag = false
 
+@export var team = 0
+
 @onready var sprite = $Testcard
+
+@export var number = 1
+
+func _ready():
+	sprite.animation = str(number)
+
 
 func _process(delta):
 	#print("canDrag: " + str(canDrag))
@@ -36,7 +45,6 @@ func _input_event(viewport, event, shape_idx):
 			if len(cards_that_are_not_being_dragged) == len(get_tree().get_nodes_in_group("card")):
 				if canDrag == false:
 					prev_pos = position
-				print(prev_pos)
 				canDrag = true
 				z_index = 1000
 		else:
@@ -44,27 +52,35 @@ func _input_event(viewport, event, shape_idx):
 			canDrag = false
 			#var tween = get_tree().create_tween()
 			#tween.tween_property(self, "position", prev_pos, 0.2).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
-		get_viewport().set_input_as_handled()
+		
 func released():
 	overlaps = get_overlapping_areas()
 	if overlaps:
-		z_index = overlaps[0].z_index + 1
-		rotation_degrees = 0
-		var target_pos = Vector2(overlaps[0].position.x,overlaps[0].position.y - 3)
-		var tween = get_tree().create_tween()
-		tween.tween_property(self, "rotation_degrees", 360, 0.8).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
-		tween.tween_interval(0.1)
-		tween.tween_property(self, "position", prev_pos, 0.3).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+		if overlaps[0].team != team:
+			z_index = overlaps[0].z_index + 1
+			rotation_degrees = 0
+			var target_pos = Vector2(overlaps[0].position.x,overlaps[0].position.y - 3)
+			var tween = get_tree().create_tween()
+			tween.tween_property(self, "position", target_pos, 0.2).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+			tween.tween_interval(0.1)
+			tween.tween_property(self, "rotation_degrees", 360, 0.5).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+			tween.tween_interval(0.1)
+			tween.tween_callback(do_da_math.bind(self).bind(overlaps[0]))
+			
+			tween.tween_property(self, "position", prev_pos, 0.4).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+		else:
+			var tween = get_tree().create_tween()
+			tween.tween_property(self, "position", prev_pos, 0.2).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 	else:
 		var tween = get_tree().create_tween()
-		tween.tween_property(self, "position", prev_pos, 0.3).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+		tween.tween_property(self, "position", prev_pos, 0.2).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 
 
 func _on_mouse_entered():
 	if (not canDrag) and len(get_overlapping_areas()) == 0 :
 		#var tween = get_tree().create_tween()
 		#tween.tween_property(self, "position", Vector2(position.x, position.y - 5), 0.2).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
-		sprite.play("hover")
+		sprite.play(sprite.animation)
 	
 
 
@@ -72,4 +88,12 @@ func _on_mouse_exited():
 	if not canDrag:
 		#var tween = get_tree().create_tween()
 		#tween.tween_property(self, "position", Vector2(position.x, position.y + 5), 0.2).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN)
-		sprite.play_backwards("hover")
+		sprite.play_backwards(sprite.animation)
+		
+func do_da_math(card1, card2):
+	var num1: int = card1.sprite.animation.to_int()
+	var num2: int = card2.sprite.animation.to_int()
+	print(num1 + num2)
+	card2.sprite.animation = str(num1 + num2)
+	
+	

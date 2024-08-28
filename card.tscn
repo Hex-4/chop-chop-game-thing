@@ -1,45 +1,7 @@
-[gd_scene load_steps=9 format=3 uid="uid://dp6q3og2yem0d"]
+[gd_scene load_steps=4 format=3 uid="uid://dp6q3og2yem0d"]
 
 [ext_resource type="Script" path="res://card.gd" id="1_16wck"]
-[ext_resource type="Texture2D" uid="uid://cfmf2h0ga1lcn" path="res://testcard.png" id="2_3ork6"]
-[ext_resource type="Texture2D" uid="uid://bx0i4t0h2sqw0" path="res://testcard-Sheet.png" id="3_cwnb0"]
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_igb7m"]
-atlas = ExtResource("3_cwnb0")
-region = Rect2(0, 0, 144, 195)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_o67tj"]
-atlas = ExtResource("3_cwnb0")
-region = Rect2(144, 0, 144, 195)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_arcm7"]
-atlas = ExtResource("3_cwnb0")
-region = Rect2(288, 0, 144, 195)
-
-[sub_resource type="SpriteFrames" id="SpriteFrames_cgnrc"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": ExtResource("2_3ork6")
-}],
-"loop": true,
-"name": &"default",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_igb7m")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_o67tj")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_arcm7")
-}],
-"loop": false,
-"name": &"hover",
-"speed": 16.0
-}]
+[ext_resource type="SpriteFrames" uid="uid://elxgn65up1kb" path="res://cards.tres" id="2_bx0sr"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1ulb5"]
 size = Vector2(116, 162)
@@ -50,8 +12,8 @@ script = ExtResource("1_16wck")
 metadata/_edit_group_ = true
 
 [node name="Testcard" type="AnimatedSprite2D" parent="."]
-sprite_frames = SubResource("SpriteFrames_cgnrc")
-animation = &"hover"
+sprite_frames = ExtResource("2_bx0sr")
+animation = &"2"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_1ulb5")

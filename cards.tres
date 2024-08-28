@@ -1,0 +1,55 @@
+[gd_resource type="SpriteFrames" load_steps=7 format=3 uid="uid://elxgn65up1kb"]
+
+[ext_resource type="Texture2D" uid="uid://7w65hf587fim" path="res://cards/card1-3x.png" id="1_3avh7"]
+[ext_resource type="Texture2D" uid="uid://bt3fkcigdwe2h" path="res://cards/card2-3x.png" id="2_r7b3k"]
+[ext_resource type="Texture2D" uid="uid://bx0i4t0h2sqw0" path="res://testcard-Sheet.png" id="2_tk7ut"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_igb7m"]
+atlas = ExtResource("2_tk7ut")
+region = Rect2(0, 0, 144, 195)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_o67tj"]
+atlas = ExtResource("2_tk7ut")
+region = Rect2(144, 0, 144, 195)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_arcm7"]
+atlas = ExtResource("2_tk7ut")
+region = Rect2(288, 0, 144, 195)
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_3avh7")
+}],
+"loop": true,
+"name": &"1",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_r7b3k")
+}],
+"loop": true,
+"name": &"2",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": true,
+"name": &"3",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_igb7m")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_o67tj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_arcm7")
+}],
+"loop": false,
+"name": &"blank",
+"speed": 16.0
+}]
