@@ -15,7 +15,10 @@ var canDrag = false:
 var cards_that_are_not_being_dragged = []
 var overlaps
 var prev_pos
+var animating = false
 var prev_can_drag = false
+var active
+@onready var manager = $"../.."
 
 @export var team = 0
 
@@ -23,8 +26,11 @@ var prev_can_drag = false
 
 @export var number = 1
 
+signal played
+
 func _ready():
 	sprite.animation = str(number)
+	played.connect(manager.card_played)
 
 
 func _process(delta):
@@ -37,7 +43,9 @@ func _process(delta):
 
 func _input_event(viewport, event, shape_idx):
 	if event is InputEventMouseMotion or InputEventMouseButton:
-		if event.button_mask == 1:
+		if event is InputEventMouseButton and event.double_click:
+			print("ATTAC")
+		if event.button_mask == 1 and (get_parent() == manager.playing) and event is InputEventMouseMotion:
 			cards_that_are_not_being_dragged = []
 			for i in get_tree().get_nodes_in_group("card"):
 				if i.canDrag == false or i == self:
@@ -47,16 +55,22 @@ func _input_event(viewport, event, shape_idx):
 					prev_pos = position
 				canDrag = true
 				z_index = 1000
+		elif event is InputEventMouseButton and event.button_mask == 1 and not canDrag and scale == Vector2(1,1):
+			var tween = get_tree().create_tween()
+			active = true
+			tween.tween_property(self, "scale", Vector2(1.1,1.1), 0.2).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 		else:
-			
 			canDrag = false
 			#var tween = get_tree().create_tween()
-			#tween.tween_property(self, "position", prev_pos, 0.2).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
-		
 func released():
 	overlaps = get_overlapping_areas()
-	if overlaps:
-		if overlaps[0].team != team:
+	if scale > Vector2(1,1):
+		var tween = get_tree().create_tween()
+		active = false
+		tween.tween_property(self, "scale", Vector2(1,1), 0.2).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+	if overlaps and overlaps[0].is_in_group("card"):
+		if overlaps[0].team != team and (not overlaps[0].animating) and (not animating) and (overlaps[0].is_in_group("card")):
+			animating = true
 			z_index = overlaps[0].z_index + 1
 			rotation_degrees = 0
 			var target_pos = Vector2(overlaps[0].position.x,overlaps[0].position.y - 3)
@@ -68,6 +82,8 @@ func released():
 			tween.tween_callback(do_da_math.bind(self).bind(overlaps[0]))
 			
 			tween.tween_property(self, "position", prev_pos, 0.4).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+			tween.tween_callback(set_animating_to_false)
+			tween.tween_callback(played.emit)
 		else:
 			var tween = get_tree().create_tween()
 			tween.tween_property(self, "position", prev_pos, 0.2).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
@@ -94,6 +110,13 @@ func do_da_math(card1, card2):
 	var num1: int = card1.sprite.animation.to_int()
 	var num2: int = card2.sprite.animation.to_int()
 	print(num1 + num2)
-	card2.sprite.animation = str(num1 + num2)
+	var sum
+	if num1 + num2 > 9:
+		sum = (num1 + num2) - 10
+	else:
+		sum = num1 + num2
+	card2.sprite.animation = str(sum)
 	
-	
+
+func set_animating_to_false():
+	animating = false

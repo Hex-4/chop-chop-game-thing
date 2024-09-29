@@ -3,21 +3,27 @@
 [ext_resource type="Script" path="res://cardmanager.gd" id="1_loax4"]
 [ext_resource type="PackedScene" uid="uid://dp6q3og2yem0d" path="res://card.tscn" id="2_vdxtg"]
 
-[node name="Node2D" type="Node2D"]
+[node name="Node2D" type="Node2D" node_paths=PackedStringArray("bottom_team", "top_team")]
 script = ExtResource("1_loax4")
+bottom_team = NodePath("Bottom team")
+top_team = NodePath("Top team")
 
-[node name="top 1" parent="." instance=ExtResource("2_vdxtg")]
+[node name="Top team" type="Node2D" parent="."]
+
+[node name="top 1" parent="Top team" instance=ExtResource("2_vdxtg")]
 position = Vector2(514, 107)
 team = 1
 
-[node name="top 2" parent="." instance=ExtResource("2_vdxtg")]
+[node name="top 2" parent="Top team" instance=ExtResource("2_vdxtg")]
 position = Vector2(667, 108)
 team = 1
 number = 2
 
-[node name="bottom 1" parent="." instance=ExtResource("2_vdxtg")]
+[node name="Bottom team" type="Node2D" parent="."]
+
+[node name="bottom 1" parent="Bottom team" instance=ExtResource("2_vdxtg")]
 position = Vector2(521, 538)
 
-[node name="bottom 2" parent="." instance=ExtResource("2_vdxtg")]
+[node name="bottom 2" parent="Bottom team" instance=ExtResource("2_vdxtg")]
 position = Vector2(684, 533)
 number = 2
