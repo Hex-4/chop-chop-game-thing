@@ -14,7 +14,7 @@ var canDrag = false:
 		canDrag = value
 var cards_that_are_not_being_dragged = []
 var overlaps
-var prev_pos
+@onready var prev_pos = position
 var animating = false
 var prev_can_drag = false
 var active
@@ -41,48 +41,94 @@ func _process(delta):
 		$".".global_position = lerp($".".global_position, get_global_mouse_position(), 8 * delta)
 
 
-func _input_event(viewport, event, shape_idx):
+func _input(event):
 	if event is InputEventMouseMotion or InputEventMouseButton:
-		if event is InputEventMouseButton and event.double_click:
-			print("ATTAC")
-		if event.button_mask == 1 and (get_parent() == manager.playing) and event is InputEventMouseMotion:
-			cards_that_are_not_being_dragged = []
-			for i in get_tree().get_nodes_in_group("card"):
-				if i.canDrag == false or i == self:
-					cards_that_are_not_being_dragged.append(i)
-			if len(cards_that_are_not_being_dragged) == len(get_tree().get_nodes_in_group("card")):
-				if canDrag == false:
-					prev_pos = position
-				canDrag = true
-				z_index = 1000
-		elif event is InputEventMouseButton and event.button_mask == 1 and not canDrag and scale == Vector2(1,1):
-			var tween = get_tree().create_tween()
-			active = true
-			tween.tween_property(self, "scale", Vector2(1.1,1.1), 0.2).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
-		else:
-			canDrag = false
-			#var tween = get_tree().create_tween()
+		var shape_global_rect = $CollisionShape2D.shape.get_rect()
+		shape_global_rect = Rect2(shape_global_rect.position + position, shape_global_rect.size)
+		if shape_global_rect.has_point(event.position):
+			
+			if event is InputEventMouseButton and event.double_click:
+				print("ATTAC")
+			if event.button_mask == 1 and (get_parent() == manager.playing) and event is InputEventMouseMotion:
+				cards_that_are_not_being_dragged = []
+				for i in get_tree().get_nodes_in_group("card"):
+					if i.canDrag == false or i == self:
+						cards_that_are_not_being_dragged.append(i)
+				if len(cards_that_are_not_being_dragged) == len(get_tree().get_nodes_in_group("card")):
+					if canDrag == false:
+						prev_pos = position
+					canDrag = true
+					
+					z_index = 1000
+			elif event is InputEventMouseButton and event.button_mask == 1 and not canDrag and scale == Vector2(1,1):
+				var active_card: Node = null
+				for i in get_tree().get_nodes_in_group("card"):
+					if i.active:
+						active_card = i
+						break
+				if active_card:
+					active_card.swap(self)
+					var tween = get_tree().create_tween()
+					active = false
+					tween.tween_property(self, "scale", Vector2(1,1), 0.2).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+					
+				elif (get_parent() == manager.playing):
+					var tween = get_tree().create_tween()
+					print("card clicked")
+					active = true
+					tween.tween_property(self, "scale", Vector2(1.1,1.1), 0.2).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+			elif not event.is_pressed():
+				canDrag = false
+				#var tween = get_tree().create_tween()
+			overlaps = get_overlapping_areas()
+			overlaps = overlaps.filter(remove_non_cards)
+			if not len(overlaps) > 0:
+				get_viewport().set_input_as_handled()
+		
 func released():
+	var first_card
+	print("Released!")
 	overlaps = get_overlapping_areas()
+	overlaps = overlaps.filter(remove_non_cards)
+	if overlaps:
+		first_card = overlaps[0]
+	else:
+		first_card = null
 	if scale > Vector2(1,1):
 		var tween = get_tree().create_tween()
 		active = false
 		tween.tween_property(self, "scale", Vector2(1,1), 0.2).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
-	if overlaps and overlaps[0].is_in_group("card"):
-		if overlaps[0].team != team and (not overlaps[0].animating) and (not animating) and (overlaps[0].is_in_group("card")):
+	swap(first_card)
+	
+
+
+func _on_mouse_entered():
+	if (not canDrag) and len(get_overlapping_areas().filter(remove_non_cards)) == 0 :
+		#var tween = get_tree().create_tween()
+		#tween.tween_property(self, "position", Vector2(position.x, position.y - 5), 0.2).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+		sprite.play(sprite.animation)
+	
+
+func swap(card: Node):
+	if card:
+		if card.team != team and (not card.animating) and (not animating):
 			animating = true
-			z_index = overlaps[0].z_index + 1
+			z_index = card.z_index + 1
 			rotation_degrees = 0
-			var target_pos = Vector2(overlaps[0].position.x,overlaps[0].position.y - 3)
+			var target_pos = Vector2(card.position.x,card.position.y - 3)
 			var tween = get_tree().create_tween()
+			if scale > Vector2(1,1):
+				tween.tween_property(self, "scale", Vector2(1,1), 0.05).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 			tween.tween_property(self, "position", target_pos, 0.2).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 			tween.tween_interval(0.1)
 			tween.tween_property(self, "rotation_degrees", 360, 0.5).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 			tween.tween_interval(0.1)
-			tween.tween_callback(do_da_math.bind(self).bind(overlaps[0]))
+			tween.tween_callback(do_da_math.bind(self).bind(card))
 			
 			tween.tween_property(self, "position", prev_pos, 0.4).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 			tween.tween_callback(set_animating_to_false)
+			
+			tween.tween_callback(become_inactive)
 			tween.tween_callback(played.emit)
 		else:
 			var tween = get_tree().create_tween()
@@ -90,14 +136,6 @@ func released():
 	else:
 		var tween = get_tree().create_tween()
 		tween.tween_property(self, "position", prev_pos, 0.2).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
-
-
-func _on_mouse_entered():
-	if (not canDrag) and len(get_overlapping_areas()) == 0 :
-		#var tween = get_tree().create_tween()
-		#tween.tween_property(self, "position", Vector2(position.x, position.y - 5), 0.2).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
-		sprite.play(sprite.animation)
-	
 
 
 func _on_mouse_exited():
@@ -120,3 +158,12 @@ func do_da_math(card1, card2):
 
 func set_animating_to_false():
 	animating = false
+	
+func remove_non_cards(o):
+	if o.is_in_group("card"):
+		return true
+	else:
+		return false
+		
+func become_inactive():
+	active = false

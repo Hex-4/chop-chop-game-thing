@@ -1,7 +1,13 @@
-[gd_scene load_steps=3 format=3 uid="uid://c70515e17ph6y"]
+[gd_scene load_steps=7 format=3 uid="uid://c70515e17ph6y"]
 
 [ext_resource type="Script" path="res://cardmanager.gd" id="1_loax4"]
+[ext_resource type="Script" path="res://hearts.gd" id="2_ugjs4"]
+[ext_resource type="Texture2D" uid="uid://dbpaxo6048mfy" path="res://heart-3x.png" id="2_vcdgv"]
 [ext_resource type="PackedScene" uid="uid://dp6q3og2yem0d" path="res://card.tscn" id="2_vdxtg"]
+[ext_resource type="Script" path="res://bg.gd" id="3_1kmf4"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_j1cty"]
+size = Vector2(1206, 693)
 
 [node name="Node2D" type="Node2D" node_paths=PackedStringArray("bottom_team", "top_team")]
 script = ExtResource("1_loax4")
@@ -9,6 +15,22 @@ bottom_team = NodePath("Bottom team")
 top_team = NodePath("Top team")
 
 [node name="Top team" type="Node2D" parent="."]
+
+[node name="Hearts Top" type="Node2D" parent="Top team"]
+position = Vector2(116, 90)
+script = ExtResource("2_ugjs4")
+metadata/_edit_group_ = true
+
+[node name="1" type="Sprite2D" parent="Top team/Hearts Top"]
+texture = ExtResource("2_vcdgv")
+
+[node name="2" type="Sprite2D" parent="Top team/Hearts Top"]
+position = Vector2(70, 0)
+texture = ExtResource("2_vcdgv")
+
+[node name="3" type="Sprite2D" parent="Top team/Hearts Top"]
+position = Vector2(140, 0)
+texture = ExtResource("2_vcdgv")
 
 [node name="top 1" parent="Top team" instance=ExtResource("2_vdxtg")]
 position = Vector2(514, 107)
@@ -21,9 +43,33 @@ number = 2
 
 [node name="Bottom team" type="Node2D" parent="."]
 
+[node name="Hearts Bottom" type="Node2D" parent="Bottom team"]
+position = Vector2(874, 537)
+metadata/_edit_group_ = true
+
+[node name="1" type="Sprite2D" parent="Bottom team/Hearts Bottom"]
+texture = ExtResource("2_vcdgv")
+
+[node name="2" type="Sprite2D" parent="Bottom team/Hearts Bottom"]
+position = Vector2(70, 0)
+texture = ExtResource("2_vcdgv")
+
+[node name="3" type="Sprite2D" parent="Bottom team/Hearts Bottom"]
+position = Vector2(140, 0)
+texture = ExtResource("2_vcdgv")
+
 [node name="bottom 1" parent="Bottom team" instance=ExtResource("2_vdxtg")]
 position = Vector2(521, 538)
 
 [node name="bottom 2" parent="Bottom team" instance=ExtResource("2_vdxtg")]
 position = Vector2(684, 533)
 number = 2
+
+[node name="Background" type="Area2D" parent="."]
+visible = false
+collision_priority = -5.0
+script = ExtResource("3_1kmf4")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Background"]
+position = Vector2(593, 336.5)
+shape = SubResource("RectangleShape2D_j1cty")
