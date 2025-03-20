@@ -1,10 +1,19 @@
-[gd_scene load_steps=7 format=3 uid="uid://c70515e17ph6y"]
+[gd_scene load_steps=10 format=3 uid="uid://c70515e17ph6y"]
 
 [ext_resource type="Script" path="res://cardmanager.gd" id="1_loax4"]
 [ext_resource type="Script" path="res://hearts.gd" id="2_ugjs4"]
 [ext_resource type="Texture2D" uid="uid://dbpaxo6048mfy" path="res://heart-3x.png" id="2_vcdgv"]
 [ext_resource type="PackedScene" uid="uid://dp6q3og2yem0d" path="res://card.tscn" id="2_vdxtg"]
 [ext_resource type="Script" path="res://bg.gd" id="3_1kmf4"]
+[ext_resource type="Texture2D" uid="uid://cl6hfjg46y8a0" path="res://buttons/forge-sheet.png" id="5_oi6f4"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mpi43"]
+atlas = ExtResource("5_oi6f4")
+region = Rect2(3, 75, 66, 66)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_l1pj8"]
+atlas = ExtResource("5_oi6f4")
+region = Rect2(75, 75, 66, 66)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_j1cty"]
 size = Vector2(1206, 693)
@@ -44,7 +53,24 @@ team = 1
 number = 0
 enemy_cards = [NodePath("../../Bottom team/bottom 1"), NodePath("../../Bottom team/bottom 2")]
 
+[node name="TextureButton" type="TextureButton" parent="Top team"]
+offset_left = 178.0
+offset_top = 512.0
+offset_right = 244.0
+offset_bottom = 578.0
+texture_normal = SubResource("AtlasTexture_mpi43")
+texture_pressed = SubResource("AtlasTexture_l1pj8")
+
 [node name="Bottom team" type="Node2D" parent="."]
+
+[node name="TextureButton2" type="TextureButton" parent="Bottom team"]
+offset_left = 991.0
+offset_top = 134.0
+offset_right = 1057.0
+offset_bottom = 200.0
+rotation = 3.14159
+texture_normal = SubResource("AtlasTexture_mpi43")
+texture_pressed = SubResource("AtlasTexture_l1pj8")
 
 [node name="Hearts Bottom" type="Node2D" parent="Bottom team"]
 position = Vector2(874, 537)
