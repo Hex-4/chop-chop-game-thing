@@ -32,19 +32,23 @@ texture = ExtResource("2_vcdgv")
 position = Vector2(140, 0)
 texture = ExtResource("2_vcdgv")
 
-[node name="top 1" parent="Top team" instance=ExtResource("2_vdxtg")]
+[node name="top 1" parent="Top team" node_paths=PackedStringArray("enemy_cards") instance=ExtResource("2_vdxtg")]
 position = Vector2(514, 107)
 team = 1
+number = 7
+enemy_cards = [NodePath("../../Bottom team/bottom 1"), NodePath("../../Bottom team/bottom 2")]
 
-[node name="top 2" parent="Top team" instance=ExtResource("2_vdxtg")]
+[node name="top 2" parent="Top team" node_paths=PackedStringArray("enemy_cards") instance=ExtResource("2_vdxtg")]
 position = Vector2(667, 108)
 team = 1
-number = 2
+number = 0
+enemy_cards = [NodePath("../../Bottom team/bottom 1"), NodePath("../../Bottom team/bottom 2")]
 
 [node name="Bottom team" type="Node2D" parent="."]
 
 [node name="Hearts Bottom" type="Node2D" parent="Bottom team"]
 position = Vector2(874, 537)
+script = ExtResource("2_ugjs4")
 metadata/_edit_group_ = true
 
 [node name="1" type="Sprite2D" parent="Bottom team/Hearts Bottom"]
@@ -58,12 +62,15 @@ texture = ExtResource("2_vcdgv")
 position = Vector2(140, 0)
 texture = ExtResource("2_vcdgv")
 
-[node name="bottom 1" parent="Bottom team" instance=ExtResource("2_vdxtg")]
+[node name="bottom 1" parent="Bottom team" node_paths=PackedStringArray("enemy_cards") instance=ExtResource("2_vdxtg")]
 position = Vector2(521, 538)
+number = 7
+enemy_cards = [NodePath("../../Top team/top 1"), NodePath("../../Top team/top 2")]
 
-[node name="bottom 2" parent="Bottom team" instance=ExtResource("2_vdxtg")]
+[node name="bottom 2" parent="Bottom team" node_paths=PackedStringArray("enemy_cards") instance=ExtResource("2_vdxtg")]
 position = Vector2(684, 533)
-number = 2
+number = 0
+enemy_cards = [NodePath("../../Top team/top 1"), NodePath("../../Top team/top 2")]
 
 [node name="Background" type="Area2D" parent="."]
 visible = false

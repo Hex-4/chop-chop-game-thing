@@ -1,7 +1,7 @@
 extends Node2D
 
 @onready var team_node: Node = $".."
-var hearts = 3:
+var hearts: int = 3:
 	get:
 		return hearts
 	set(value):
@@ -18,12 +18,19 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	pass
 	
-func change_visible_hearts(new_value):
-	var diff = new_value - hearts
-	if diff > 0:
-		var tween = get_tree().create_tween()
-		for i in range(0,diff):
-			tween.tween_property(get_node(str(new_value - i)), "scale", Vector2(0,0), 0.2).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+func change_visible_hearts(new_value: int):
+	if new_value < hearts:
+		var diff: int = hearts - new_value
+		for i in range(diff): 
+			var tween = get_tree().create_tween()
+			tween.tween_property(get_node(str(hearts - i)), "scale", Vector2(0,0), 0.2).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT) # get last heart
+			
+	if new_value > hearts:
+		var diff: int = new_value - hearts
+		for i in range(diff): 
+			var tween = get_tree().create_tween()
+			tween.tween_property(get_node(str(hearts + i + 1)), "scale", Vector2(1,1), 0.2).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT) # get last heart
+	
 
 func increase_hearts():
 	hearts += 1
