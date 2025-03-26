@@ -44,8 +44,8 @@ func _ready():
 	elif team == 1:
 		hearts = $"../Hearts Top"
 		enemy_hearts = $"../../Bottom team/Hearts Bottom"
-	print(enemy_hearts)
-	print(hearts)
+	print(name + str(position))
+	
 
 
 func _process(delta):
@@ -208,13 +208,21 @@ func attac():
 
 func become_broken():
 	if get_tree():
-		sprite.animation = str(number) + "b"
+		
 		broken = true
 		var tween = get_tree().create_tween()
 		active = false
+		
+		tween.tween_property(self, "modulate", Color(15,15,15, 1), 0.3).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT) # Fade to white
+		tween.tween_callback(change_to_broken_sprite)
+		tween.tween_property(self, "modulate", Color(1,1,1, 1), 2).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 		tween.tween_property(self, "scale", Vector2(1,1), 0.2).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
-		played.emit()
+		tween.tween_callback(played.emit)
+
 	
+func change_to_broken_sprite():
+	sprite.animation = str(number) + "b"
+
 func check_shield():
 	var enemy_shield: Node2D = null
 	for c in enemy_cards:

@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://c70515e17ph6y"]
+[gd_scene load_steps=13 format=3 uid="uid://c70515e17ph6y"]
 
 [ext_resource type="Script" path="res://cardmanager.gd" id="1_loax4"]
 [ext_resource type="Script" path="res://hearts.gd" id="2_ugjs4"]
@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://dp6q3og2yem0d" path="res://card.tscn" id="2_vdxtg"]
 [ext_resource type="Script" path="res://bg.gd" id="3_1kmf4"]
 [ext_resource type="Texture2D" uid="uid://cl6hfjg46y8a0" path="res://buttons/forge-sheet.png" id="5_oi6f4"]
+[ext_resource type="Script" path="res://forge.gd" id="6_oc5kf"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_mpi43"]
 atlas = ExtResource("5_oi6f4")
@@ -13,7 +14,15 @@ region = Rect2(3, 75, 66, 66)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_l1pj8"]
 atlas = ExtResource("5_oi6f4")
-region = Rect2(75, 75, 66, 66)
+region = Rect2(72, 72, 72, 72)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_g543v"]
+atlas = ExtResource("5_oi6f4")
+region = Rect2(0, 72, 72, 72)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xgs0r"]
+atlas = ExtResource("5_oi6f4")
+region = Rect2(144, 72, 72, 72)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_j1cty"]
 size = Vector2(1206, 693)
@@ -42,35 +51,43 @@ position = Vector2(140, 0)
 texture = ExtResource("2_vcdgv")
 
 [node name="top 1" parent="Top team" node_paths=PackedStringArray("enemy_cards") instance=ExtResource("2_vdxtg")]
-position = Vector2(514, 107)
+position = Vector2(514, 108)
 team = 1
-number = 7
+number = 0
 enemy_cards = [NodePath("../../Bottom team/bottom 1"), NodePath("../../Bottom team/bottom 2")]
 
 [node name="top 2" parent="Top team" node_paths=PackedStringArray("enemy_cards") instance=ExtResource("2_vdxtg")]
 position = Vector2(667, 108)
 team = 1
-number = 0
+number = 4
 enemy_cards = [NodePath("../../Bottom team/bottom 1"), NodePath("../../Bottom team/bottom 2")]
 
-[node name="TextureButton" type="TextureButton" parent="Top team"]
-offset_left = 178.0
-offset_top = 512.0
-offset_right = 244.0
-offset_bottom = 578.0
-texture_normal = SubResource("AtlasTexture_mpi43")
-texture_pressed = SubResource("AtlasTexture_l1pj8")
-
-[node name="Bottom team" type="Node2D" parent="."]
-
-[node name="TextureButton2" type="TextureButton" parent="Bottom team"]
+[node name="TopForge" type="TextureButton" parent="Top team" node_paths=PackedStringArray("team_node")]
 offset_left = 991.0
 offset_top = 134.0
 offset_right = 1057.0
 offset_bottom = 200.0
 rotation = 3.14159
+disabled = true
 texture_normal = SubResource("AtlasTexture_mpi43")
 texture_pressed = SubResource("AtlasTexture_l1pj8")
+texture_disabled = SubResource("AtlasTexture_g543v")
+script = ExtResource("6_oc5kf")
+team_node = NodePath("..")
+
+[node name="Bottom team" type="Node2D" parent="."]
+
+[node name="BottomForge" type="TextureButton" parent="Bottom team" node_paths=PackedStringArray("team_node")]
+offset_left = 178.0
+offset_top = 512.0
+offset_right = 244.0
+offset_bottom = 578.0
+disabled = true
+texture_normal = SubResource("AtlasTexture_xgs0r")
+texture_pressed = SubResource("AtlasTexture_l1pj8")
+texture_disabled = SubResource("AtlasTexture_g543v")
+script = ExtResource("6_oc5kf")
+team_node = NodePath("..")
 
 [node name="Hearts Bottom" type="Node2D" parent="Bottom team"]
 position = Vector2(874, 537)
@@ -89,13 +106,12 @@ position = Vector2(140, 0)
 texture = ExtResource("2_vcdgv")
 
 [node name="bottom 1" parent="Bottom team" node_paths=PackedStringArray("enemy_cards") instance=ExtResource("2_vdxtg")]
-position = Vector2(521, 538)
+position = Vector2(521, 533)
 number = 7
 enemy_cards = [NodePath("../../Top team/top 1"), NodePath("../../Top team/top 2")]
 
 [node name="bottom 2" parent="Bottom team" node_paths=PackedStringArray("enemy_cards") instance=ExtResource("2_vdxtg")]
 position = Vector2(684, 533)
-number = 0
 enemy_cards = [NodePath("../../Top team/top 1"), NodePath("../../Top team/top 2")]
 
 [node name="Background" type="Area2D" parent="."]
@@ -106,3 +122,6 @@ script = ExtResource("3_1kmf4")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Background"]
 position = Vector2(593, 336.5)
 shape = SubResource("RectangleShape2D_j1cty")
+
+[connection signal="pressed" from="Top team/TopForge" to="Top team/TopForge" method="_on_pressed"]
+[connection signal="pressed" from="Bottom team/BottomForge" to="Bottom team/BottomForge" method="_on_pressed"]

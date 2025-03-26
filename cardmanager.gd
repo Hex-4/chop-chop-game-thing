@@ -20,6 +20,8 @@ func _process(delta):
 func card_played():
 	
 	deactivate_all_cards()
+	$"Bottom team/BottomForge".check_combo()
+	$"Top team/TopForge".check_combo()
 	if playing == bottom_team:
 		playing = top_team
 	elif playing == top_team:
@@ -34,5 +36,6 @@ func deactivate_all_cards() -> void:
 			var tween = get_tree().create_tween()
 			i.active = false
 			tween.tween_property(i, "scale", Vector2(1,1), 0.2).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+			
 	
 	
