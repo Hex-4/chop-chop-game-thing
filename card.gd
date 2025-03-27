@@ -181,6 +181,7 @@ func do_da_math(card1, card2):
 		sum = num1 + num2
 	card2.sprite.animation = str(sum)
 	card2.broken = false
+	card2.modulate = Color.from_hsv(1,1,1)
 	card2.number = sum
 	
 
@@ -215,7 +216,8 @@ func become_broken():
 		
 		tween.tween_property(self, "modulate", Color(15,15,15, 1), 0.3).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT) # Fade to white
 		tween.tween_callback(change_to_broken_sprite)
-		tween.tween_property(self, "modulate", Color(1,1,1, 1), 2).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+		tween.tween_property(self, "modulate", Color.from_hsv(1,0,0.3), 1).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+		
 		tween.tween_property(self, "scale", Vector2(1,1), 0.2).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 		tween.tween_callback(played.emit)
 
