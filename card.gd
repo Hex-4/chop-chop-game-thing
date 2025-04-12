@@ -65,6 +65,7 @@ func _input(event):
 				
 				if event is InputEventMouseButton and event.double_click and (get_parent() == manager.playing):
 					attac()
+					print(self)
 				if event.button_mask == 1 and (get_parent() == manager.playing) and event is InputEventMouseMotion:
 					cards_that_are_not_being_dragged = []
 					for i in get_tree().get_nodes_in_group("card"):
@@ -181,7 +182,7 @@ func do_da_math(card1, card2):
 		sum = num1 + num2
 	card2.sprite.animation = str(sum)
 	card2.broken = false
-	card2.modulate = Color.from_hsv(1,1,1)
+	card2.modulate = Color(1,1,1)
 	card2.number = sum
 	
 
@@ -234,6 +235,8 @@ func check_shield():
 	if enemy_shield:
 		enemy_shield.become_broken()
 	else:
+		print("Check_shield():")
+		print(self)
 		enemy_hearts.decrease_hearts()
 		check_end()
 

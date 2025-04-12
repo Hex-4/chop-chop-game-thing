@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://dp6q3og2yem0d"]
 
-[ext_resource type="Script" path="res://card.gd" id="1_16wck"]
+[ext_resource type="Script" uid="uid://bvt7ia5tj3u60" path="res://card.gd" id="1_16wck"]
 [ext_resource type="SpriteFrames" uid="uid://elxgn65up1kb" path="res://cards.tres" id="2_bx0sr"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1ulb5"]
@@ -13,7 +13,7 @@ metadata/_edit_group_ = true
 
 [node name="Testcard" type="AnimatedSprite2D" parent="."]
 sprite_frames = ExtResource("2_bx0sr")
-animation = &"4"
+animation = &"nuke"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_1ulb5")

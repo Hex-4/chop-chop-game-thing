@@ -1,12 +1,12 @@
 [gd_scene load_steps=13 format=3 uid="uid://c70515e17ph6y"]
 
-[ext_resource type="Script" path="res://cardmanager.gd" id="1_loax4"]
-[ext_resource type="Script" path="res://hearts.gd" id="2_ugjs4"]
+[ext_resource type="Script" uid="uid://jin7gpfmbcpm" path="res://cardmanager.gd" id="1_loax4"]
+[ext_resource type="Script" uid="uid://cvwkrik40qvui" path="res://hearts.gd" id="2_ugjs4"]
 [ext_resource type="Texture2D" uid="uid://dbpaxo6048mfy" path="res://heart-3x.png" id="2_vcdgv"]
 [ext_resource type="PackedScene" uid="uid://dp6q3og2yem0d" path="res://card.tscn" id="2_vdxtg"]
-[ext_resource type="Script" path="res://bg.gd" id="3_1kmf4"]
+[ext_resource type="Script" uid="uid://dnaaalu8hudat" path="res://bg.gd" id="3_1kmf4"]
 [ext_resource type="Texture2D" uid="uid://cl6hfjg46y8a0" path="res://buttons/forge-sheet.png" id="5_oi6f4"]
-[ext_resource type="Script" path="res://forge.gd" id="6_oc5kf"]
+[ext_resource type="Script" uid="uid://i5d7w2ar7px8" path="res://forge.gd" id="6_oc5kf"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_mpi43"]
 atlas = ExtResource("5_oi6f4")
@@ -62,7 +62,7 @@ team = 1
 number = 4
 enemy_cards = [NodePath("../../Bottom team/bottom 1"), NodePath("../../Bottom team/bottom 2")]
 
-[node name="TopForge" type="TextureButton" parent="Top team" node_paths=PackedStringArray("team_node")]
+[node name="TopForge" type="TextureButton" parent="Top team" node_paths=PackedStringArray("team_node", "hearts", "ehearts")]
 offset_left = 991.0
 offset_top = 134.0
 offset_right = 1057.0
@@ -74,10 +74,12 @@ texture_pressed = SubResource("AtlasTexture_l1pj8")
 texture_disabled = SubResource("AtlasTexture_g543v")
 script = ExtResource("6_oc5kf")
 team_node = NodePath("..")
+hearts = NodePath("../Hearts Top")
+ehearts = NodePath("../../Bottom team/Hearts Bottom")
 
 [node name="Bottom team" type="Node2D" parent="."]
 
-[node name="BottomForge" type="TextureButton" parent="Bottom team" node_paths=PackedStringArray("team_node")]
+[node name="BottomForge" type="TextureButton" parent="Bottom team" node_paths=PackedStringArray("team_node", "hearts", "ehearts")]
 offset_left = 178.0
 offset_top = 512.0
 offset_right = 244.0
@@ -88,6 +90,8 @@ texture_pressed = SubResource("AtlasTexture_l1pj8")
 texture_disabled = SubResource("AtlasTexture_g543v")
 script = ExtResource("6_oc5kf")
 team_node = NodePath("..")
+hearts = NodePath("../Hearts Bottom")
+ehearts = NodePath("../../Top team/Hearts Top")
 
 [node name="Hearts Bottom" type="Node2D" parent="Bottom team"]
 position = Vector2(874, 537)
@@ -107,11 +111,12 @@ texture = ExtResource("2_vcdgv")
 
 [node name="bottom 1" parent="Bottom team" node_paths=PackedStringArray("enemy_cards") instance=ExtResource("2_vdxtg")]
 position = Vector2(521, 533)
-number = 7
+number = 0
 enemy_cards = [NodePath("../../Top team/top 1"), NodePath("../../Top team/top 2")]
 
 [node name="bottom 2" parent="Bottom team" node_paths=PackedStringArray("enemy_cards") instance=ExtResource("2_vdxtg")]
 position = Vector2(684, 533)
+number = 0
 enemy_cards = [NodePath("../../Top team/top 1"), NodePath("../../Top team/top 2")]
 
 [node name="Background" type="Area2D" parent="."]
@@ -122,6 +127,15 @@ script = ExtResource("3_1kmf4")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Background"]
 position = Vector2(593, 336.5)
 shape = SubResource("RectangleShape2D_j1cty")
+
+[node name="Flash" type="ColorRect" parent="."]
+z_index = 4096
+offset_left = -19.0
+offset_top = -19.0
+offset_right = 1179.0
+offset_bottom = 661.0
+mouse_filter = 2
+color = Color(1, 1, 1, 0)
 
 [connection signal="pressed" from="Top team/TopForge" to="Top team/TopForge" method="_on_pressed"]
 [connection signal="pressed" from="Bottom team/BottomForge" to="Bottom team/BottomForge" method="_on_pressed"]

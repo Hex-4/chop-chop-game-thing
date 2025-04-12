@@ -1,4 +1,4 @@
-[gd_resource type="SpriteFrames" load_steps=33 format=3 uid="uid://elxgn65up1kb"]
+[gd_resource type="SpriteFrames" load_steps=34 format=3 uid="uid://elxgn65up1kb"]
 
 [ext_resource type="Texture2D" uid="uid://0y8krcwgfjen" path="res://cards/card0.png" id="1_1y4tg"]
 [ext_resource type="Texture2D" uid="uid://7w65hf587fim" path="res://cards/card1-3x.png" id="1_3avh7"]
@@ -15,6 +15,7 @@
 [ext_resource type="Texture2D" uid="uid://bpmgthukk7qgg" path="res://cards/broken/6-spritesheet-3x-b.png" id="9_deixa"]
 [ext_resource type="Texture2D" uid="uid://ijyliqyptdxb" path="res://cards/broken/7-3x-b.png" id="11_08ap7"]
 [ext_resource type="Texture2D" uid="uid://dp0wkruy1b7l4" path="res://cards/broken/9-3x-b.png" id="14_i3ls3"]
+[ext_resource type="Texture2D" uid="uid://cp6vyxisxjd8r" path="res://cards/nuke.png" id="16_mux7k"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_j7wgu"]
 atlas = ExtResource("6_2c3e4")
@@ -247,4 +248,12 @@ animations = [{
 "loop": false,
 "name": &"blank",
 "speed": 16.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("16_mux7k")
+}],
+"loop": true,
+"name": &"nuke",
+"speed": 5.0
 }]
