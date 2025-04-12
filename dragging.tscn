@@ -1,6 +1,7 @@
-[gd_scene load_steps=13 format=3 uid="uid://c70515e17ph6y"]
+[gd_scene load_steps=14 format=3 uid="uid://c70515e17ph6y"]
 
 [ext_resource type="Script" uid="uid://jin7gpfmbcpm" path="res://cardmanager.gd" id="1_loax4"]
+[ext_resource type="Texture2D" uid="uid://cq5qqjxi5hkfh" path="res://wallpaper.png" id="2_jhote"]
 [ext_resource type="Script" uid="uid://cvwkrik40qvui" path="res://hearts.gd" id="2_ugjs4"]
 [ext_resource type="Texture2D" uid="uid://dbpaxo6048mfy" path="res://heart-3x.png" id="2_vcdgv"]
 [ext_resource type="PackedScene" uid="uid://dp6q3og2yem0d" path="res://card.tscn" id="2_vdxtg"]
@@ -31,6 +32,11 @@ size = Vector2(1206, 693)
 script = ExtResource("1_loax4")
 bottom_team = NodePath("Bottom team")
 top_team = NodePath("Top team")
+
+[node name="Wallpaper" type="TextureRect" parent="."]
+offset_right = 1152.0
+offset_bottom = 648.0
+texture = ExtResource("2_jhote")
 
 [node name="Top team" type="Node2D" parent="."]
 
@@ -111,12 +117,12 @@ texture = ExtResource("2_vcdgv")
 
 [node name="bottom 1" parent="Bottom team" node_paths=PackedStringArray("enemy_cards") instance=ExtResource("2_vdxtg")]
 position = Vector2(521, 533)
-number = 0
+number = 7
 enemy_cards = [NodePath("../../Top team/top 1"), NodePath("../../Top team/top 2")]
 
 [node name="bottom 2" parent="Bottom team" node_paths=PackedStringArray("enemy_cards") instance=ExtResource("2_vdxtg")]
 position = Vector2(684, 533)
-number = 0
+number = 7
 enemy_cards = [NodePath("../../Top team/top 1"), NodePath("../../Top team/top 2")]
 
 [node name="Background" type="Area2D" parent="."]
