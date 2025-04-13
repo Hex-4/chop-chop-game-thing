@@ -59,13 +59,11 @@ texture = ExtResource("2_vcdgv")
 [node name="top 1" parent="Top team" node_paths=PackedStringArray("enemy_cards") instance=ExtResource("2_vdxtg")]
 position = Vector2(514, 108)
 team = 1
-number = 0
 enemy_cards = [NodePath("../../Bottom team/bottom 1"), NodePath("../../Bottom team/bottom 2")]
 
 [node name="top 2" parent="Top team" node_paths=PackedStringArray("enemy_cards") instance=ExtResource("2_vdxtg")]
 position = Vector2(667, 108)
 team = 1
-number = 4
 enemy_cards = [NodePath("../../Bottom team/bottom 1"), NodePath("../../Bottom team/bottom 2")]
 
 [node name="TopForge" type="TextureButton" parent="Top team" node_paths=PackedStringArray("team_node", "hearts", "ehearts")]
@@ -117,12 +115,10 @@ texture = ExtResource("2_vcdgv")
 
 [node name="bottom 1" parent="Bottom team" node_paths=PackedStringArray("enemy_cards") instance=ExtResource("2_vdxtg")]
 position = Vector2(521, 533)
-number = 7
 enemy_cards = [NodePath("../../Top team/top 1"), NodePath("../../Top team/top 2")]
 
 [node name="bottom 2" parent="Bottom team" node_paths=PackedStringArray("enemy_cards") instance=ExtResource("2_vdxtg")]
 position = Vector2(684, 533)
-number = 7
 enemy_cards = [NodePath("../../Top team/top 1"), NodePath("../../Top team/top 2")]
 
 [node name="Background" type="Area2D" parent="."]

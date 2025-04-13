@@ -7,6 +7,10 @@ extends Node2D
 @export var server_url = "ws://localhost:8765"
 var ended = false
 var socket = WebSocketPeer.new()
+var player_id = null
+var players
+var top_cards
+var bottom_cards
 
 
 # Called when the node enters the scene tree for the first time.
@@ -22,7 +26,13 @@ func _ready():
 		await get_tree().create_timer(2).timeout
 
 		# Send data.
-		socket.send_text("x")
+		var join_req = {
+			"t": "JOIN"
+		}
+		socket.send_text(JSON.stringify(join_req))
+		
+	bottom_cards = bottom_team.get_children().filter(remove_non_cards)
+	top_cards = top_team.get_children().filter(remove_non_cards)
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -38,7 +48,25 @@ func _process(delta):
 	# to send and receive data.
 	if state == WebSocketPeer.STATE_OPEN:
 		while socket.get_available_packet_count():
-			print("Got data from server: ", socket.get_packet().get_string_from_utf8())
+			var message = JSON.parse_string(socket.get_packet().get_string_from_utf8())
+			print(message)
+			match message["t"]:
+				"JOINX":
+					player_id = message["id"]
+					players = message["list"] # FIXME: Is not updated when players join
+					if not message["first"]:
+						print(player_id + " is not first")
+						card_played()
+					print("Joined game as " + player_id)
+				"SWAPX":
+					if message["id"] != player_id:
+						print(player_id + " Swapping!")
+						var from = top_cards[message["from"]]
+						print("From: " + str(from))
+						var to = bottom_cards[message["to"]]
+						print("To: " + str(to))
+						from.swap(to)
+				
 
 	# WebSocketPeer.STATE_CLOSING means the socket is closing.
 	# It is important to keep polling for a clean close.
@@ -53,6 +81,13 @@ func _process(delta):
 		print("WebSocket closed with code: %d. Clean: %s" % [code, code != -1])
 		set_process(false) # Stop processing.
 	
+	
+func remove_non_cards(o):
+	if o.is_in_group("card"):
+		return true
+	else:
+		return false
+
 func card_played():
 	
 	deactivate_all_cards()
@@ -62,8 +97,6 @@ func card_played():
 		playing = top_team
 	elif playing == top_team:
 		playing = bottom_team
-		
-		
 	
 func deactivate_all_cards() -> void:
 	for i in get_tree().get_nodes_in_group("card"):
@@ -72,5 +105,9 @@ func deactivate_all_cards() -> void:
 			var tween = get_tree().create_tween()
 			i.active = false
 			tween.tween_property(i, "scale", Vector2(1,1), 0.2).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+			
+
+func send(dict):
+	socket.send_text(JSON.stringify(dict))
 			
 	

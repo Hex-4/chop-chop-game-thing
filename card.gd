@@ -58,7 +58,7 @@ func _process(delta):
 
 func _input(event):
 	if not manager.ended:
-		if event is InputEventMouseMotion or event is InputEventMouseButton:
+		if (event is InputEventMouseMotion or event is InputEventMouseButton) and get_parent().name == "Bottom team":
 			var shape_global_rect = $CollisionShape2D.shape.get_rect()
 			shape_global_rect = Rect2(shape_global_rect.position + position, shape_global_rect.size)
 			if shape_global_rect.has_point(event.position):
@@ -126,6 +126,15 @@ func released():
 		active = false
 		tween.tween_property(self, "scale", Vector2(1,1), 0.2).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 	swap(first_card)
+	if first_card and first_card.team != team:
+		var r = {
+			"t": "SWAP",
+			"from": int(str(name)[-1]) - 1, # Get last character of name, turn that into an int and subtract 1 so it's zero based
+			"to": int(str(first_card.name)[-1]) - 1, # You are very lucky that past you thought to comment this code.
+			"id": manager.player_id
+		}
+		 
+		manager.send(r)
 	
 
 
@@ -138,6 +147,7 @@ func _on_mouse_entered():
 
 func swap(card: Node):
 	if card:
+		print("swapping - there's a card!")
 		if card.team != team and (not card.animating) and (not animating):
 			animating = true
 			z_index = card.z_index + 1
