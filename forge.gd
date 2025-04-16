@@ -26,6 +26,8 @@ func _ready() -> void:
 		enemy_node = $"../../Top team"
 	cards = team_node.get_children().filter(remove_non_cards)
 	check_combo()
+	if get_parent().name == "Top team":
+		disabled = true
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -39,6 +41,16 @@ func remove_non_cards(o):
 		return false
 
 func _on_pressed() -> void:
+	if mp.multiplayer_mode:
+		var r = {
+			"t": "COMBO",
+			"code": mp.code,
+			"id": mp.player_id
+		}
+		mp.send(r)
+	resolve_combo()
+
+func resolve_combo():
 	if get_parent() == manager.playing:
 		print("hi")
 		var n = team_node
@@ -94,7 +106,7 @@ func _on_pressed() -> void:
 					t.tween_property(c, "modulate", Color(1,1,1, 1), 0.8).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 					t.tween_interval(0.7)
 			
-			
+				
 func remove_eheart():
 	ehearts.hearts -= 1
 # SECTION: STUFF FOR THE NUKE

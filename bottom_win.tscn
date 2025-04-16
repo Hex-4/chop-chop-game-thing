@@ -6,28 +6,30 @@
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = 194.0
+offset_left = -1.0
 offset_top = 495.0
-offset_right = 1026.0
+offset_right = 1147.0
 offset_bottom = 641.0
 grow_horizontal = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 theme_override_font_sizes/normal_font_size = 100
 bbcode_enabled = true
-text = "[rainbow freq=0.1 sat=0.8 val=0.8][wave amp=150.0 freq=3.0 connected=1]BOTTOM WINS![/wave][/rainbow]"
+text = "[rainbow freq=0.1 sat=0.8 val=0.8][wave amp=150.0 freq=3.0 connected=1]YOU WIN![/wave][/rainbow]"
+horizontal_alignment = 1
 
 [node name="RichTextLabel2" type="RichTextLabel" parent="."]
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = 289.0
+offset_left = 2.0
 offset_top = -6.0
-offset_right = 1041.0
+offset_right = 1151.0
 offset_bottom = 140.0
 grow_horizontal = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 theme_override_font_sizes/normal_font_size = 100
 bbcode_enabled = true
-text = "[shake rate=25.0 level=8connected=1]top loses :([/shake]"
+text = "[shake rate=25.0 level=8connected=1]they lose :([/shake]"
+horizontal_alignment = 1

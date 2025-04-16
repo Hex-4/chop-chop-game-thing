@@ -11,7 +11,7 @@
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_mpi43"]
 atlas = ExtResource("5_oi6f4")
-region = Rect2(3, 75, 66, 66)
+region = Rect2(144, 72, 72, 72)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_l1pj8"]
 atlas = ExtResource("5_oi6f4")
@@ -59,11 +59,13 @@ texture = ExtResource("2_vcdgv")
 [node name="top 1" parent="Top team" node_paths=PackedStringArray("enemy_cards") instance=ExtResource("2_vdxtg")]
 position = Vector2(514, 108)
 team = 1
+number = 8
 enemy_cards = [NodePath("../../Bottom team/bottom 1"), NodePath("../../Bottom team/bottom 2")]
 
 [node name="top 2" parent="Top team" node_paths=PackedStringArray("enemy_cards") instance=ExtResource("2_vdxtg")]
 position = Vector2(667, 108)
 team = 1
+number = 8
 enemy_cards = [NodePath("../../Bottom team/bottom 1"), NodePath("../../Bottom team/bottom 2")]
 
 [node name="TopForge" type="TextureButton" parent="Top team" node_paths=PackedStringArray("team_node", "hearts", "ehearts")]
@@ -115,10 +117,12 @@ texture = ExtResource("2_vcdgv")
 
 [node name="bottom 1" parent="Bottom team" node_paths=PackedStringArray("enemy_cards") instance=ExtResource("2_vdxtg")]
 position = Vector2(521, 533)
+number = 8
 enemy_cards = [NodePath("../../Top team/top 1"), NodePath("../../Top team/top 2")]
 
 [node name="bottom 2" parent="Bottom team" node_paths=PackedStringArray("enemy_cards") instance=ExtResource("2_vdxtg")]
 position = Vector2(684, 533)
+number = 8
 enemy_cards = [NodePath("../../Top team/top 1"), NodePath("../../Top team/top 2")]
 
 [node name="Background" type="Area2D" parent="."]

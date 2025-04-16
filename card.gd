@@ -58,12 +58,20 @@ func _process(delta):
 
 func _input(event):
 	if not manager.ended:
-		if (event is InputEventMouseMotion or event is InputEventMouseButton) and get_parent().name == "Bottom team":
+		if (event is InputEventMouseMotion or event is InputEventMouseButton) and ((manager.playing.name == "Bottom team") or not mp.multiplayer_mode):
 			var shape_global_rect = $CollisionShape2D.shape.get_rect()
 			shape_global_rect = Rect2(shape_global_rect.position + position, shape_global_rect.size)
 			if shape_global_rect.has_point(event.position):
 				
 				if event is InputEventMouseButton and event.double_click and (get_parent() == manager.playing):
+					if not broken and mp.multiplayer_mode:
+						var r = {
+							"t": "ATK",
+							"code": mp.code,
+							"card": int(str(name)[-1]) - 1, # Get last character of name, turn that into an int and subtract 1 so it's zero based
+							"id": mp.player_id
+						}
+						mp.send(r)
 					attac()
 					print(self)
 				if event.button_mask == 1 and (get_parent() == manager.playing) and event is InputEventMouseMotion:
@@ -88,6 +96,16 @@ func _input(event):
 							print(active_card)
 							if not active_card == self:
 								active_card.swap(self)
+								if active_card.team != team and mp.multiplayer_mode:
+									var r = {
+										"t": "SWAP",
+										"code": mp.code,
+										"to": int(str(name)[-1]) - 1, # Get last character of name, turn that into an int and subtract 1 so it's zero based
+										"from": int(str(active_card.name)[-1]) - 1, # You are very lucky that past you thought to comment this code.
+										"id": mp.player_id
+									}
+									 
+									mp.send(r)
 								var tween = get_tree().create_tween()
 								active = false
 								tween.tween_property(self, "scale", Vector2(1,1), 0.2).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
@@ -126,15 +144,16 @@ func released():
 		active = false
 		tween.tween_property(self, "scale", Vector2(1,1), 0.2).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 	swap(first_card)
-	if first_card and first_card.team != team:
+	if first_card and first_card.team != team and mp.multiplayer_mode:
 		var r = {
 			"t": "SWAP",
+			"code": mp.code,
 			"from": int(str(name)[-1]) - 1, # Get last character of name, turn that into an int and subtract 1 so it's zero based
 			"to": int(str(first_card.name)[-1]) - 1, # You are very lucky that past you thought to comment this code.
-			"id": manager.player_id
+			"id": mp.player_id
 		}
 		 
-		manager.send(r)
+		mp.send(r)
 	
 
 
@@ -210,6 +229,8 @@ func become_inactive():
 	
 func attac():
 	if not broken:
+		
+		
 		if number == 7 or number == 9:
 			check_shield()
 			become_broken()

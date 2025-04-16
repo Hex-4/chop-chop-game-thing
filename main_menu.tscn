@@ -1,0 +1,73 @@
+[gd_scene load_steps=5 format=3 uid="uid://bo5j06baub1vs"]
+
+[ext_resource type="Script" uid="uid://tjhsqi18fry" path="res://gotoscene.gd" id="1_06t4h"]
+[ext_resource type="Script" uid="uid://jj5aoynikg3k" path="res://local_play_button.gd" id="1_jix8l"]
+[ext_resource type="Script" uid="uid://cjmm5vtt2ie18" path="res://roomcode_box.gd" id="2_7vrkn"]
+[ext_resource type="PackedScene" uid="uid://cxsbhur4f0iw" path="res://host.tscn" id="2_fu7sn"]
+
+[node name="Node2D" type="Node2D"]
+
+[node name="Label" type="Label" parent="."]
+offset_left = 23.0
+offset_top = 23.0
+offset_right = 113.0
+offset_bottom = 53.0
+text = "hosting?"
+
+[node name="Label2" type="Label" parent="."]
+offset_left = 21.0
+offset_top = 196.0
+offset_right = 111.0
+offset_bottom = 226.0
+text = "joining?"
+
+[node name="Label3" type="Label" parent="."]
+offset_left = 32.0
+offset_top = 507.0
+offset_right = 162.0
+offset_bottom = 537.0
+text = "friends here IRL?"
+
+[node name="Button2" type="Button" parent="."]
+offset_left = 32.0
+offset_top = 535.0
+offset_right = 323.0
+offset_bottom = 630.0
+text = "LOCAL PLAY"
+script = ExtResource("1_jix8l")
+
+[node name="Button" type="Button" parent="."]
+offset_left = 20.0
+offset_top = 54.0
+offset_right = 240.0
+offset_bottom = 154.0
+text = "CREATE ROOM"
+script = ExtResource("1_06t4h")
+scene = ExtResource("2_fu7sn")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+offset_left = 20.0
+offset_top = 226.0
+offset_right = 330.0
+offset_bottom = 323.0
+alignment = 1
+script = ExtResource("2_7vrkn")
+metadata/_edit_group_ = true
+
+[node name="LineEdit" type="LineEdit" parent="HBoxContainer"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "Room Code"
+max_length = 5
+emoji_menu_enabled = false
+
+[node name="Button" type="Button" parent="HBoxContainer"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_stretch_ratio = 0.0
+text = "JOIN"
+
+[connection signal="pressed" from="Button2" to="Button2" method="_on_pressed"]
+[connection signal="pressed" from="HBoxContainer/Button" to="HBoxContainer" method="_on_button_pressed"]
